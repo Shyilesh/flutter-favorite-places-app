@@ -1,16 +1,36 @@
-# favorite_places
+# Flutter Favorite Places App
 
-A new Flutter project.
+A Flutter application that allows users to save and manage favorite locations with images and geographic coordinates.
 
-## Getting Started
+This project was built to practice working with device features, local file storage, and persistent data storage in Flutter.
 
-This project is a starting point for a Flutter application.
+## Features
+- Add places with title, image, and location
+- Capture images using the device camera
+- Retrieve the user's current location using GPS
+- Convert coordinates into a human-readable address (reverse geocoding)
+- Display a map preview of the selected location
+- Persist place data locally using SQLite database
+- Load stored places when the app restarts
+- State management using Riverpod
 
-A few resources to get you started if this is your first Flutter project:
+## Technologies Used
+- Flutter (Dart)
+- Riverpod for state management
+- SQLite (sqflite package) for local database storage
+- path_provider for local file storage
+- image_picker for camera access
+- location package for retrieving device location
+- HTTP package for reverse geocoding requests
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Key Concepts Practiced
+- Working with device features (camera and GPS)
+- Managing application state with Riverpod
+- Local file storage using path_provider
+- Persisting structured data using SQLite
+- Handling asynchronous operations in Flutter
+- Loading data using FutureBuilder
+- Mapping database rows to Dart objects
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Status
+Completed and functioning as expected.
