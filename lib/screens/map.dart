@@ -1,24 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:favorite_places/models/place.dart';
 
-class MapScreen extends StatelessWidget {
-  const MapScreen({super.key, required this.location});
+class MapScreen extends StatefulWidget {
+  const MapScreen({
+    super.key,
+    this.location = const PlaceLocation(
+      latitude: 37.422,
+      longitude: -122.084,
+      address: '',
+    ),
+    this.isSelecting = true,
+  });
 
   final PlaceLocation location;
+  final bool isSelecting;
 
-  String get locationImage {
-    final lat = location.latitude;
-    final lng = location.longitude;
-
-    return 'https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=500&height=250&center=lonlat:$lng,$lat&zoom=15&marker=lonlat:$lng,$lat;color:%23ff0000;size:42&apiKey=86b22c2ad5664e71b75510969d275625';
+  @override
+  State<MapScreen> createState() {
+    return _MapScreenState();
   }
+}
+
+class _MapScreenState extends State<MapScreen> {
+  LatLng? _pickedLocation;
 
   @override
   Widget build(context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Your location.')),
-      body: Center(child: Image.network(locationImage, fit: BoxFit.cover)),
+      appBar: AppBar(
+        title: Text(
+          widget.isSelecting ? 'Pick your location' : 'Your location',
+        ),
+        actions: [
+          if (widget.isSelecting)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop(_pickedLocation);
+              },
+              icon: Icon(Icons.save),
+            ),
+        ],
+      ),
+      body: GoogleMap(
+        onTap: widget.isSelecting == false
+            ? null
+            : (position) {
+                setState(() {
+                  _pickedLocation = position;
+                });
+              },
+        initialCameraPosition: CameraPosition(
+          target: LatLng(widget.location.latitude, widget.location.longitude),
+          zoom: 16,
+        ),
+        markers: (_pickedLocation == null && widget.isSelecting)
+            ? {}
+            : {
+                Marker(
+                  markerId: const MarkerId('A'),
+                  position:
+                      _pickedLocation ??
+                      LatLng(
+                        widget.location.latitude,
+                        widget.location.longitude,
+                      ),
+                ),
+              },
+      ),
     );
   }
 }

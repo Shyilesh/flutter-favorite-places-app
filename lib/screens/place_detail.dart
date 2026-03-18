@@ -12,7 +12,7 @@ class PlacesDetailScreen extends StatelessWidget {
     final lat = place.location.latitude;
     final lng = place.location.longitude;
 
-    return 'https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=500&height=250&center=lonlat:$lng,$lat&zoom=15&marker=lonlat:$lng,$lat;color:%23ff0000;size:42&apiKey=86b22c2ad5664e71b75510969d275625';
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng=&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=AIzaSyA-SXjx84mnFzo1Mv3jLiO1q9qC8A6iKaI';
   }
 
   @override
@@ -37,7 +37,10 @@ class PlacesDetailScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (ctx) => MapScreen(location: place.location),
+                        builder: (ctx) => MapScreen(
+                          location: place.location,
+                          isSelecting: false,
+                        ),
                       ),
                     );
                   },
