@@ -30,18 +30,24 @@ class LocationInputState extends State<LocationInput> {
     final lat = _pickedLocation!.latitude;
     final lng = _pickedLocation!.longitude;
 
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng=&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=AIzaSyA-SXjx84mnFzo1Mv3jLiO1q9qC8A6iKaI';
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=AIzaSyAahNGK8oaBVvvYDAyU3QvHkO2eiIcG6a4';
   }
 
   Future<void> _savePlace(double latitude, double longitude) async {
     final url = Uri.parse(
-      'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=AIzaSyA-SXjx84mnFzo1Mv3jLiO1q9qC8A6iKaI',
+      'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=AIzaSyAahNGK8oaBVvvYDAyU3QvHkO2eiIcG6a4',
     );
 
     final response = await http.get(url);
 
     final redData = json.decode(response.body);
-    final address = redData['results'][0]['formatted_address'];
+
+    // fallback if no results
+    String address = 'Unknown location';
+
+    if (redData['results'] != null && redData['results'].isNotEmpty) {
+      address = redData['results'][0]['formatted_address'];
+    }
 
     setState(() {
       _pickedLocation = PlaceLocation(
@@ -159,7 +165,7 @@ class LocationInputState extends State<LocationInput> {
               onPressed: _selectOnMap,
             ),
           ],
-        ), 
+        ),
       ],
     );
   }
